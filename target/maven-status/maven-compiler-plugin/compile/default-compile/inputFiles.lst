@@ -1,1 +1,5 @@
 /Users/jesi/Desktop/EOMP/order-service/src/main/java/com/eomp/orderservice/OrderServiceApplication.java
+/Users/jesi/Desktop/EOMP/order-service/src/main/java/com/eomp/orderservice/api/v1/HealthController.java
+/Users/jesi/Desktop/EOMP/order-service/src/main/java/com/eomp/orderservice/api/v1/dto/ApiResponse.java
+/Users/jesi/Desktop/EOMP/order-service/src/main/java/com/eomp/orderservice/exception/ApiError.java
+/Users/jesi/Desktop/EOMP/order-service/src/main/java/com/eomp/orderservice/exception/GlobalExceptionHandler.java
