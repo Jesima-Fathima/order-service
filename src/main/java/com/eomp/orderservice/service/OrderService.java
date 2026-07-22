@@ -2,8 +2,8 @@ package com.eomp.orderservice.service;
 
 import com.eomp.orderservice.api.v1.dto.OrderRequest;
 import com.eomp.orderservice.api.v1.dto.OrderResponse;
-
-import java.util.List;
+import com.eomp.orderservice.api.v1.dto.PageResponse;
+import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
 
@@ -11,5 +11,9 @@ public interface OrderService {
 
     OrderResponse getOrderById(Long id);
 
-    List<OrderResponse> getAllOrders();
+    PageResponse<OrderResponse> getOrders(Pageable pageable);
+
+    OrderResponse updateOrder(Long id, OrderRequest request);
+
+    void deleteOrder(Long id);
 }

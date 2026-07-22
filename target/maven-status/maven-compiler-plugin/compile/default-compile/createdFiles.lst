@@ -12,5 +12,6 @@ com/eomp/orderservice/exception/ResourceNotFoundException.class
 com/eomp/orderservice/entity/Order.class
 com/eomp/orderservice/config/OpenApiConfig.class
 com/eomp/orderservice/config/DataSourceConfig.class
+com/eomp/orderservice/api/v1/dto/PageResponse.class
 com/eomp/orderservice/exception/ApiError.class
 com/eomp/orderservice/exception/GlobalExceptionHandler.class

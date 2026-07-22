@@ -11,17 +11,19 @@ public class OrderResponse {
     private Integer quantity;
     private BigDecimal totalPrice;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public OrderResponse() {
     }
 
-    public OrderResponse(Long id, String customerName, String productCode, Integer quantity, BigDecimal totalPrice, LocalDateTime createdAt) {
+    public OrderResponse(Long id, String customerName, String productCode, Integer quantity, BigDecimal totalPrice, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.customerName = customerName;
         this.productCode = productCode;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -70,5 +72,13 @@ public class OrderResponse {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
