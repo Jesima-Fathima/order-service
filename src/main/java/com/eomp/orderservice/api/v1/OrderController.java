@@ -1,15 +1,5 @@
 package com.eomp.orderservice.api.v1;
 
-import com.eomp.orderservice.api.v1.dto.ApiResponse;
-import com.eomp.orderservice.api.v1.dto.OrderRequest;
-import com.eomp.orderservice.api.v1.dto.OrderResponse;
-import com.eomp.orderservice.api.v1.dto.PageResponse;
-import com.eomp.orderservice.service.OrderService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,7 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.eomp.orderservice.api.v1.dto.ApiResponse;
+import com.eomp.orderservice.api.v1.dto.OrderRequest;
+import com.eomp.orderservice.api.v1.dto.OrderResponse;
+import com.eomp.orderservice.api.v1.dto.PageResponse;
+import com.eomp.orderservice.service.OrderService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -54,7 +54,7 @@ public class OrderController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Order not found")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(@PathVariable("id") Long id) {
         OrderResponse response = orderService.getOrderById(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "Order retrieved successfully", response));
     }
@@ -65,10 +65,10 @@ public class OrderController {
     })
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<OrderResponse>>> getOrders(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "desc") String sortDirection) {
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "createdAt") String sortBy,
+            @RequestParam(name = "sortDirection", defaultValue = "desc") String sortDirection) {
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
@@ -84,7 +84,7 @@ public class OrderController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<OrderResponse>> updateOrder(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @Valid @RequestBody OrderRequest request) {
         OrderResponse response = orderService.updateOrder(id, request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Order updated successfully", response));
@@ -96,7 +96,7 @@ public class OrderController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Order not found")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable("id") Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
