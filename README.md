@@ -226,6 +226,131 @@ Do **not** implement future phases early.
 
 ---
 
+---
+
+# Project Progress
+
+The project is being implemented incrementally.
+
+The current implementation focuses on building the **Order Service** as the first production-inspired backend service.
+
+## Completed Milestones
+
+### Milestone 1 — Spring Boot Foundation
+
+Status: ✅ Completed
+
+Implemented:
+
+* Spring Boot 3
+* Java 21
+* Maven
+* Health API
+* H2 Database
+* Spring Data JPA
+* Global Exception Handling
+* Standard API Response
+* OpenAPI / Swagger
+* Clean Layered Architecture
+* Constructor Injection
+
+---
+
+### Milestone 2 — Create Order API
+
+Status: ✅ Completed
+
+Implemented:
+
+* Order Entity
+* Order Repository
+* Order Service
+* Order Controller
+* Request DTO
+* Response DTO
+* Bean Validation
+* Global Exception Handling
+* H2 Persistence
+* OpenAPI Documentation
+
+---
+
+### Milestone 3 — Complete Order CRUD
+
+Status: ✅ Completed
+
+Implemented:
+
+* Create Order
+* Get Order By ID
+* Get All Orders
+* Update Order
+* Delete Order
+* Pagination
+* Sorting
+* API Versioning
+* Custom Exceptions
+* Page Response
+* OpenAPI Documentation
+
+---
+
+### Milestone 4 — Testing & Production Readiness
+
+Status: ✅ Completed
+
+Implemented:
+
+* Service Unit Tests
+* Controller Tests
+* Integration Tests
+* Validation Tests
+* Exception Handling Tests
+* Pagination Tests
+* Sorting Tests
+
+---
+
+## Current Learning — Kafka & Event-Driven Architecture
+
+Status: 📚 Learning
+
+Before implementing Kafka, the following concepts are being studied:
+
+* Kafka Producer
+* Kafka Consumer
+* Broker
+* Topic
+* Partition
+* Offset
+* Consumer Group
+* REST vs Kafka
+* Asynchronous Event-Driven Communication
+* At-Most-Once Delivery
+* At-Least-Once Delivery
+* Exactly-Once Semantics
+* Idempotency
+* Consumer Lag
+* Retry Strategy
+* Dead Letter Topic
+* Dual-Write Problem
+* Transactional Outbox Pattern
+
+Kafka implementation will begin only after the concepts and design decisions are understood.
+
+---
+
+## Upcoming Order Service Milestones
+
+* [ ] Milestone 5 — Kafka Event Publishing
+* [ ] Milestone 6 — Kafka Consumer, Retry & Dead Letter Topic
+* [ ] Milestone 7 — Webhook Management & Delivery
+* [ ] Milestone 8 — Docker
+* [ ] Milestone 9 — GitHub Actions CI/CD
+* [ ] Milestone 10 — Kubernetes
+* [ ] Milestone 11 — Redis, Caching & Rate Limiting
+* [ ] Milestone 12 — Observability & Monitoring
+
 # Phase 1 — Foundation
 
 Goal:
