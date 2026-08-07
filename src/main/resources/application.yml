@@ -15,6 +15,18 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        delivery.timeout.ms: 2000
+        request.timeout.ms: 1500
+        retries: 0
+        max.block.ms: 1500
+    topics:
+      order-events: order-events
 
 server:
   port: 8081

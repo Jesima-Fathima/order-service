@@ -15,6 +15,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,9 @@ import com.eomp.orderservice.api.v1.dto.OrderRequest;
 import com.eomp.orderservice.api.v1.dto.OrderResponse;
 import com.eomp.orderservice.api.v1.dto.PageResponse;
 import com.eomp.orderservice.entity.Order;
+import com.eomp.orderservice.event.OrderCreatedEvent;
 import com.eomp.orderservice.exception.ResourceNotFoundException;
+import com.eomp.orderservice.publisher.OrderEventPublisher;
 import com.eomp.orderservice.repository.OrderRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,6 +37,9 @@ class OrderServiceImplTest {
 
     @Mock
     private OrderRepository orderRepository;
+
+    @Mock
+    private OrderEventPublisher orderEventPublisher;
 
     @InjectMocks
     private OrderServiceImpl orderService;
@@ -73,6 +79,20 @@ class OrderServiceImplTest {
         assertThat(response.getTotalPrice()).isEqualByComparingTo(BigDecimal.valueOf(49.99));
 
         then(orderRepository).should(times(1)).save(any(Order.class));
+        then(orderEventPublisher).should(times(1)).publish(any(OrderCreatedEvent.class));
+    }
+
+    @Test
+    void createOrder_publisherFailure_doesNotThrowException() {
+        given(orderRepository.save(any(Order.class))).willReturn(savedOrder);
+        doThrow(new RuntimeException("Kafka unavailable")).when(orderEventPublisher).publish(any(OrderCreatedEvent.class));
+
+        OrderResponse response = orderService.createOrder(validRequest);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getId()).isEqualTo(1L);
+        then(orderRepository).should(times(1)).save(any(Order.class));
+        then(orderEventPublisher).should(times(1)).publish(any(OrderCreatedEvent.class));
     }
 
     @Test
