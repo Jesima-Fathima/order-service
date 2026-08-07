@@ -25,6 +25,10 @@ spring:
         request.timeout.ms: 1500
         retries: 0
         max.block.ms: 1500
+    consumer:
+      group-id: order-service-consumer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
     topics:
       order-events: order-events
 

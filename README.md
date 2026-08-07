@@ -342,14 +342,36 @@ Kafka implementation will begin only after the concepts and design decisions are
 
 ## Upcoming Order Service Milestones
 
-* [ ] Milestone 5 — Kafka Event Publishing
-* [ ] Milestone 6 — Kafka Consumer, Retry & Dead Letter Topic
+* [x] Milestone 5 — Kafka Event Publishing
+* [x] Milestone 6 — Kafka Consumer
 * [ ] Milestone 7 — Webhook Management & Delivery
 * [ ] Milestone 8 — Docker
 * [ ] Milestone 9 — GitHub Actions CI/CD
 * [ ] Milestone 10 — Kubernetes
 * [ ] Milestone 11 — Redis, Caching & Rate Limiting
 * [ ] Milestone 12 — Observability & Monitoring
+
+### Milestone 6 — Kafka Consumer
+
+Status: ✅ Completed
+
+Implemented:
+
+* Kafka consumer for the existing `order-events` topic
+* `@KafkaListener` with consumer group `order-service-consumer`
+* JSON deserialization into `OrderCreatedEvent`
+* Manual acknowledgment after successful processing
+* Consumer-side logging for received and processed events
+* Consumer configuration isolated in a dedicated configuration class
+
+Key concepts covered:
+
+* Consumer group: allows multiple consumers to share a topic subscription safely.
+* Manual acknowledgment: the offset is committed only after successful processing.
+* JSON deserialization: converts Kafka payload bytes into the domain event object.
+* Offset commit behavior: if processing fails, the message is not acknowledged and will be retried later by the consumer group.
+
+---
 
 # Phase 1 — Foundation
 
