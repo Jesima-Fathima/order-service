@@ -622,14 +622,215 @@ When generating code:
 
 Current Phase:
 
-**Phase 1 – Foundation**
+**Phase 1 – Foundation + Order Service Event-Driven Development**
 
 Current Objective:
 
-* Finalize business requirements.
-* Finalize API design for the Product Service.
-* No coding until the design is reviewed and approved.
+Build the Order Service incrementally while understanding each technology and
+design decision before implementation.
 
-Next Milestone:
+## Completed Milestones
 
-Design the Product Service REST API before creating the Spring Boot project.
+### Milestone 1 — Spring Boot Foundation
+
+* Spring Boot 3
+* Java 21
+* Maven
+* Health API
+* Global Exception Handling
+* Standard API Response
+* Swagger / OpenAPI
+* H2 Database
+* Clean layered architecture
+* Constructor Injection
+
+Status:
+
+🟢 Completed
+
+---
+
+### Milestone 2 — Create Order API
+
+* Order Entity
+* Order Repository
+* Order Service
+* Order Controller
+* Request / Response DTOs
+* Bean Validation
+* Global Exception Handling
+* H2 Persistence
+* Swagger / OpenAPI
+
+Status:
+
+🟢 Completed
+
+---
+
+### Milestone 3 — Order CRUD & API Improvements
+
+* GET All Orders
+* GET Order By ID
+* UPDATE Order
+* DELETE Order
+* Pagination
+* Sorting
+* API Versioning
+* Custom Exceptions
+* Page Response
+* OpenAPI documentation
+
+Status:
+
+🟢 Completed
+
+---
+
+### Milestone 4 — Kafka Fundamentals
+
+Learned and documented:
+
+* Event-driven architecture
+* Kafka topics
+* Partitions
+* Offsets
+* Producer / Consumer model
+* Consumer groups
+* At-most-once delivery
+* At-least-once delivery
+* Consumer lag
+* Consumer rebalancing
+* Dead Letter Topics
+* Idempotency
+* Transactional Outbox Pattern
+* Dual-write problem
+
+Status:
+
+🟢 Completed
+
+---
+
+### Milestone 5 — Kafka Producer
+
+Implemented:
+
+* `OrderCreatedEvent`
+* Kafka event publishing
+* `KafkaTemplate`
+* JSON serialization
+* Kafka topic configuration
+* Event key using `orderId`
+* Producer integration with Order Service
+
+Status:
+
+🟢 Completed
+
+---
+
+### Milestone 6 — Kafka Consumer
+
+Implemented:
+
+* Kafka Consumer configuration
+* `@KafkaListener`
+* Consumer group
+* JSON deserialization
+* `OrderCreatedEvent` consumption
+* Manual acknowledgment
+* Offset management
+* Consumer processing layer
+* Consumer error logging
+* Consumer tests
+
+Current event flow:
+
+Order API
+
+↓
+
+Order Service
+
+↓
+
+OrderCreatedEvent
+
+↓
+
+Kafka Producer
+
+↓
+
+`order-events`
+
+↓
+
+Kafka Consumer
+
+↓
+
+`OrderCreatedEventProcessor`
+
+Status:
+
+🟢 Completed
+
+---
+
+## Next Milestone
+
+### Milestone 7 — Kafka Reliability
+
+Topics:
+
+* Retry
+* Backoff
+* Exponential Backoff
+* Dead Letter Topic
+* `DefaultErrorHandler`
+* `DeadLetterPublishingRecoverer`
+* Consumer failure handling
+* Retry exhaustion
+* DLT processing
+
+Status:
+
+🟡 In Progress
+
+---
+
+## Future Kafka Milestones
+
+### Milestone 8 — Idempotent Consumer
+
+Topics:
+
+* Duplicate event delivery
+* Event ID
+* Idempotency
+* Processed event tracking
+* Database-backed idempotency
+* Transaction boundaries
+
+Status:
+
+⬜ Not Started
+
+---
+
+### Milestone 9 — Transactional Outbox
+
+Topics:
+
+* Dual-write problem
+* Transactional Outbox Pattern
+* Outbox table
+* Database transaction
+* Event publishing
+* Reliable event delivery
+
+Status:
+
+⬜ Not Started
