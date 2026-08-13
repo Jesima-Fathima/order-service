@@ -19,4 +19,12 @@ public class OrderCreatedEventProcessorImpl implements OrderCreatedEventProcesso
     public void process(OrderCreatedEvent event) {
         log.info("Processing ORDER_CREATED event for orderId {}", event.orderId());
     }
+/* 
+    @Override
+    public void process(OrderCreatedEvent event) {
+
+        throw new RuntimeException(
+            "Simulated processing failure"
+        );
+    }*/
 }

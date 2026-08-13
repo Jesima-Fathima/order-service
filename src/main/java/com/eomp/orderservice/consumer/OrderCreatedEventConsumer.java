@@ -28,6 +28,18 @@ public class OrderCreatedEventConsumer {
             groupId = "${spring.kafka.consumer.group-id:order-service-consumer}",
             containerFactory = "kafkaListenerContainerFactory"
     )
+    public void consume(
+        OrderCreatedEvent event,
+        Acknowledgment acknowledgment) {
+
+        log.info(
+            "Received ORDER_CREATED event. orderId={}",
+            event.orderId());
+        processor.process(event);
+
+        acknowledgment.acknowledge();
+    }
+    /* 
     public void consume(OrderCreatedEvent event, Acknowledgment acknowledgment) {
         log.info("Received ORDER_CREATED event: {}", event);
 
@@ -37,5 +49,5 @@ public class OrderCreatedEventConsumer {
         } catch (Exception ex) {
             log.error("Failed to process ORDER_CREATED event for orderId {}", event.orderId(), ex);
         }
-    }
+    }*/
 }
