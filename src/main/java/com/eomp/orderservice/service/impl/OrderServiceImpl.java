@@ -1,6 +1,7 @@
 package com.eomp.orderservice.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -94,13 +95,14 @@ public class OrderServiceImpl implements OrderService {
 
     private void publishOrderCreatedEvent(Order order) {
         OrderCreatedEvent event = new OrderCreatedEvent(
-                order.getId(),
-                order.getCustomerName(),
-                order.getProductCode(),
-                order.getQuantity(),
-                order.getTotalPrice(),
-                "CREATED",
-                order.getCreatedAt()
+            UUID.randomUUID(),
+            order.getId(),
+            order.getCustomerName(),
+            order.getProductCode(),
+            order.getQuantity(),
+            order.getTotalPrice(),
+            "CREATED",
+            order.getCreatedAt()
         );
 
         try {
