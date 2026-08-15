@@ -10,9 +10,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import org.springframework.kafka.support.Acknowledgment;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import com.eomp.orderservice.event.OrderCreatedEvent;
 import com.eomp.orderservice.repository.ProcessedEventRepository;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class OrderCreatedEventConsumerTest {
 
@@ -20,7 +23,7 @@ class OrderCreatedEventConsumerTest {
     void consume_successfulProcessing_acknowledges() {
         OrderCreatedEventProcessor processor = mock(OrderCreatedEventProcessor.class);
         ProcessedEventRepository processedRepo = mock(ProcessedEventRepository.class);
-        OrderCreatedEventConsumer consumer = new OrderCreatedEventConsumer(processor, processedRepo);
+        OrderCreatedEventConsumer consumer = new OrderCreatedEventConsumer(processor, processedRepo, new SimpleMeterRegistry());
         OrderCreatedEvent event = new OrderCreatedEvent(
             UUID.randomUUID(),
             1L,
@@ -32,8 +35,17 @@ class OrderCreatedEventConsumerTest {
             LocalDateTime.now()
         );
         Acknowledgment acknowledgment = mock(Acknowledgment.class);
+        ConsumerRecord<String, OrderCreatedEvent> record =
+        new ConsumerRecord<>(
+                "order-events",
+                0,
+                10L,
+                "order-key",
+                event
+        );
 
-        consumer.consume(event, acknowledgment);
+        consumer.consume(event, acknowledgment, record);
+        
 
         verify(processor).process(event);
         verify(acknowledgment).acknowledge();
@@ -43,7 +55,13 @@ class OrderCreatedEventConsumerTest {
     void consume_processingFailure_doesNotAcknowledge() {
         OrderCreatedEventProcessor processor = mock(OrderCreatedEventProcessor.class);
         ProcessedEventRepository processedRepo = mock(ProcessedEventRepository.class);
-        OrderCreatedEventConsumer consumer = new OrderCreatedEventConsumer(processor, processedRepo);
+
+        OrderCreatedEventConsumer consumer =
+            new OrderCreatedEventConsumer(
+                    processor,
+                    processedRepo,
+                    new SimpleMeterRegistry());
+
         OrderCreatedEvent event = new OrderCreatedEvent(
             UUID.randomUUID(),
             2L,
@@ -54,10 +72,26 @@ class OrderCreatedEventConsumerTest {
             "CREATED",
             LocalDateTime.now()
         );
-        Acknowledgment acknowledgment = mock(Acknowledgment.class);
-        doThrow(new RuntimeException("processing failed")).when(processor).process(event);
 
-        consumer.consume(event, acknowledgment);
+        Acknowledgment acknowledgment = mock(Acknowledgment.class);
+
+        doThrow(new RuntimeException("processing failed"))
+            .when(processor)
+            .process(event);
+
+        ConsumerRecord<String, OrderCreatedEvent> record =
+            new ConsumerRecord<>(
+                    "order-events",
+                    0,
+                    10L,
+                    "order-key",
+                    event
+            );
+
+        assertThrows(
+            RuntimeException.class,
+            () -> consumer.consume(event, acknowledgment, record)
+        );
 
         verify(processor).process(event);
         verify(acknowledgment, never()).acknowledge();
